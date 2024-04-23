@@ -11,14 +11,12 @@ const app = express();
 
 app.use(express.json());
 
-
 app.use('/api', route);
 app.use('/api',product);
 app.use('/api',cartRoute);
 app.use('/api',CouponRoute);
 app.use('/api',OrderRoute);
 app.use('/api',Address);
-
 
 app.use('/uploads',express.static(__dirname+"/uploads"));
 

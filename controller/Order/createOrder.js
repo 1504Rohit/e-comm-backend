@@ -1,21 +1,30 @@
 const {Order} = require('../../model/createOrderModel');
 const {product}= require('../../model/addproduct');
 const UserModel = require('../../model/authModel');
+const {Address} = require('../../model/createOrderModel');
 const Cart = require('../../model/cartModel');
 
+
 exports.CreateOrder = async(req,res)=>{
-    
     try{
        const userId = req.query.userId;
-       const {selectedAdd,productIds,paymentMethod,transactionId,type} = req.body;
+       const {productIds,paymentMethod,transactionId,type,addressId} = req.body;
        if(!type){
         return res.status(404).json({
             error:true,
             message:"Order type is missing"
         });
        }
+       const address = await Address.findById(addressId);
+       if(!address){
+        return res.status(404).json({
+            error:true,
+            message:"Address not found"
+        });
+       }
+
        if(type==1){
-        if( !productIds || !paymentMethod || !selectedAdd ){
+           if(!productIds || !paymentMethod){
             return res.status(404).json({
                 error:true,
                 message:"Some required fields are missing"
@@ -32,12 +41,6 @@ exports.CreateOrder = async(req,res)=>{
             return res.status(404).json({
                 error:true,
                 message:"No user found"
-            });
-           }
-           if(!user.address){
-            return res.status(404).json({
-                error:true,
-                message:"Please add address first"
             });
            }
            let array = [];
@@ -53,12 +56,11 @@ exports.CreateOrder = async(req,res)=>{
               Price += Number(getProduct.price);
               array.push(getProduct);
            }
-    
            if(paymentMethod==5){
             console.log('inside 5');
             const data = await Order.create({
                 userId : userId,
-                address:user.address[selectedAdd],
+                address:address,
                 products:array,
                 totalPrice:Price
             });
@@ -71,7 +73,7 @@ exports.CreateOrder = async(req,res)=>{
                 return res.status(201).json({
                     error:false,
                     data:data,
-                    address:user.address[selectedAdd],
+                    address:address,
                     message:"Order successfully created"
                 });
             }
@@ -85,7 +87,7 @@ exports.CreateOrder = async(req,res)=>{
             }
             const data = await Order.create({
                 userId : userId,
-                address:user.address[selectedAdd],
+                address:address,
                 products:array,
                 transactionId:transactionId,
                 totalPrice:Price
@@ -99,13 +101,13 @@ exports.CreateOrder = async(req,res)=>{
                 return res.status(201).json({
                     error:false,
                     data:data,
-                    address:user.address[selectedAdd],
+                    address:address,
                     message:"Order successfully created"
                 });
             }
            }
        }else{
-        if( !paymentMethod || !selectedAdd ){
+        if(!paymentMethod){
             return res.status(404).json({
                 error:true,
                 message:"Some required fields are missing"
@@ -124,12 +126,7 @@ exports.CreateOrder = async(req,res)=>{
                 message:"No user found"
             });
            }
-           if(!user.address){
-            return res.status(404).json({
-                error:true,
-                message:"Please add address first"
-            });
-           }
+           
            const cartItems = await Cart.find({ userId: userId }).exec();
            if(!cartItems){
             return res.status(404).json({
@@ -146,7 +143,7 @@ exports.CreateOrder = async(req,res)=>{
             console.log('inside 5');
             const data = await Order.create({
                 userId : userId,
-                address:user.address[selectedAdd],
+                address:address,
                 products:array,
                 totalPrice:totalPrice
             });
@@ -160,7 +157,7 @@ exports.CreateOrder = async(req,res)=>{
                 return res.status(201).json({
                     error:false,
                     data:data,
-                    address:user.address[selectedAdd],
+                    address:address,
                     message:"Order successfully created"
                 });
             }
@@ -174,7 +171,7 @@ exports.CreateOrder = async(req,res)=>{
             }
             const data = await Order.create({
                 userId : userId,
-                address:user.address[selectedAdd],
+                address:address,
                 products:array,
                 transactionId:transactionId,
                 totalPrice:totalPrice
@@ -188,7 +185,7 @@ exports.CreateOrder = async(req,res)=>{
                 return res.status(201).json({
                     error:false,
                     data:data,
-                    address:user.address[selectedAdd],
+                    address:address,
                     message:"Order successfully created"
                 });
             }
@@ -201,8 +198,6 @@ exports.CreateOrder = async(req,res)=>{
         });
     }
 }
-
-
 const calculateTotalPrice = (items) => {
     let totalPrice = 0;
     items.forEach((item) => {

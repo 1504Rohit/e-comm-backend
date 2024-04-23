@@ -4,7 +4,7 @@ var validator = require("email-validator");
 const jwt = require("jsonwebtoken");
 
 exports.update = async(req,res)=>{
-        const {name,email,phone,address,profilePic} = req.body;
+        const {name,email,phone,profilePic} = req.body;
         const userId = req.query.userId;
 
         if(!phone || !email || !name || !userId){
@@ -26,7 +26,6 @@ exports.update = async(req,res)=>{
                      name:name,
                      email:email,
                      phone:phone,
-                     address:address,
                      profilePic:profilePic
 
                 },
