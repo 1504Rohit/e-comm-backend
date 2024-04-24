@@ -10,7 +10,7 @@ exports.updateCoupon = async(req,res)=>{
             message:'CouponId is required'
         });
     }
-    if(!data.name || !data.description || !data.discountType ||!data.discountValue || !data.minimumValue){
+    if(!data.name || !data.description || !data.discountType || !data.discountValue || !data.minimumValue){
         return res.status(404).json({
             error:true,
             message:'Some required fields are missing'
@@ -20,7 +20,8 @@ exports.updateCoupon = async(req,res)=>{
     try{
         const getCoupon = await coupon.findOneAndUpdate(
             { _id: userId },
-            {  name:data.name,
+            {  
+                name:data.name,
                 description:data.description,
                 discountType:data.discountType,
                 discountValue:data.discountValue,

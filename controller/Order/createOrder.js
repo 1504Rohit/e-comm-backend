@@ -3,7 +3,7 @@ const {product}= require('../../model/addproduct');
 const UserModel = require('../../model/authModel');
 const {Address} = require('../../model/createOrderModel');
 const Cart = require('../../model/cartModel');
-
+const Status = require('../../model/orderStatusModel');
 
 exports.CreateOrder = async(req,res)=>{
     try{
@@ -70,6 +70,12 @@ exports.CreateOrder = async(req,res)=>{
                     message:"Something went wrong"
                 });
             }else{
+                const status = Status.create({
+                    userId:userId,
+                    orderId:data._id,
+                    status:"Order created successfully",
+                    statusCode:1
+                });
                 return res.status(201).json({
                     error:false,
                     data:data,
@@ -98,6 +104,12 @@ exports.CreateOrder = async(req,res)=>{
                     message:"Something went wrong"
                 });
             }else{
+                const status = Status.create({
+                    userId:userId,
+                    orderId:data._id,
+                    status:"Order created successfully",
+                    statusCode:1
+                });
                 return res.status(201).json({
                     error:false,
                     data:data,
@@ -154,6 +166,12 @@ exports.CreateOrder = async(req,res)=>{
                     message:"Something went wrong"
                 });
             }else{
+                const status = Status.create({
+                    userId:userId,
+                    orderId:data._id,
+                    status:"Order created successfully",
+                    statusCode:1
+                });
                 return res.status(201).json({
                     error:false,
                     data:data,
@@ -161,7 +179,7 @@ exports.CreateOrder = async(req,res)=>{
                     message:"Order successfully created"
                 });
             }
-           }else{
+            }else{
             console.log('inside others')
             if(!transactionId){
                 return res.status(404).json({
@@ -182,6 +200,12 @@ exports.CreateOrder = async(req,res)=>{
                     message:"Something went wrong"
                 });
             }else{
+                const status = Status.create({
+                    userId:userId,
+                    orderId:data._id,
+                    status:"Order created successfully",
+                    statusCode:1
+                });
                 return res.status(201).json({
                     error:false,
                     data:data,
@@ -198,7 +222,7 @@ exports.CreateOrder = async(req,res)=>{
         });
     }
 }
-const calculateTotalPrice = (items) => {
+const calculateTotalPrice = (items)=>{
     let totalPrice = 0;
     items.forEach((item) => {
       const price = parseFloat(item.product.price); 
@@ -206,4 +230,4 @@ const calculateTotalPrice = (items) => {
       totalPrice += price * quantity;
     });
     return totalPrice;
-  };
+};
