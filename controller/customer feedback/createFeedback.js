@@ -1,7 +1,7 @@
-
 const feedback = require('../../model/customerFeedbackModel');
 
 exports.feedback = async(req,res)=>{
+
     try{
         const {custId,productId,rating,review} = req.body;
 
@@ -11,6 +11,7 @@ exports.feedback = async(req,res)=>{
                 message:"Some required fields are missing"
             });
         }
+
         const data = await feedback.create({
             custId:custId,
             productId:productId,
@@ -36,4 +37,5 @@ exports.feedback = async(req,res)=>{
             message:e
         });
     }
+    
 }
