@@ -1,13 +1,13 @@
 
 const express = require('express');
 const db = require('./database/db');
-const route = require('./routes/authRoute');
-const product = require('./routes/productRoute');
-const cartRoute = require('./routes/cartRoute');
-const CouponRoute = require('./routes/couponRoute');
-const OrderRoute = require('./routes/orderRoute');
-const Address = require ('./routes/addressRoute');
-const feedback = require('./routes/feedbackRoute');
+const route = require('./routes/auth.routes');
+const product = require('./routes/product.routes');
+const cartRoute = require('./routes/cart.routes');
+const CouponRoute = require('./routes/coupon.routes');
+const OrderRoute = require('./routes/order.routes');
+const Address = require ('./routes/address.routes');
+const feedback = require('./routes/feedback.routes');
 const app = express();
 
 app.use(express.json());

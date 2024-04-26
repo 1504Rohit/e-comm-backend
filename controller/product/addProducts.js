@@ -1,12 +1,9 @@
 
 const {product} = require('../../model/addproduct');
 const jwt = require('jsonwebtoken');
-const multer = require('multer');
-const path = require('path');
 
 exports.addProduct = async(req,res)=>{
    try{
-    console.log(req.body)
     const {name , price , description} =  req.body;
     if(!name || !price ){
         return res.status(404).json({error:true,product:{},message:'Some required fields are missing'});
@@ -43,17 +40,5 @@ function generateToken(product) {
 }
 
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads');
-    }, 
-    filename: (req, file, cb) => {
-        cb(null, Date.now()+'-'+file.originalname);
-    }
-});
 
-
-exports.upload = multer({
-    storage: storage
-});
 
