@@ -1,6 +1,5 @@
 const {Order} = require('../../model/createOrderModel');
 
-
 exports.getAllOrder = async(req,res)=>{
     const userId = req.query.userId;
     try{

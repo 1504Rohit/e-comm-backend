@@ -3,6 +3,13 @@ const {Address} = require('../../model/createOrderModel');
 exports.addAddress = async(req,res)=>{
     try{
         const {address1,address2,landMark,city,State,pinCode} = req.body;
+        if(!req.user){
+            return res.status(400).json({
+              error:true,
+              message:"Unauthorized.."
+            });
+           }
+        
         const userId = req.query.userId;
         if(!userId){
             return res.status(400).json({

@@ -2,11 +2,17 @@ const Cart = require('../../model/cartModel');
 
 
 exports.getCartItem = async(req,res)=>{
+  if(!req.user){
+    return res.status(400).json({
+      error:true,
+      message:"Unauthorized.."
+    });
+   }
         const userId = req.params.userId;
         if(!userId){
           return  res.status(404).json({error:true, message: 'User Id is missing please add userId' });
         }
-
+        
         try {
           const cartItems = await Cart.find({ userId: userId }).exec();
           var totalPrice = calculateTotalPrice(cartItems);

@@ -16,7 +16,6 @@ exports.updateCoupon = async(req,res)=>{
             message:'Some required fields are missing'
         });
        }
-    console.log(userId);
     try{
         const getCoupon = await coupon.findOneAndUpdate(
             { _id: userId },
@@ -41,8 +40,6 @@ exports.updateCoupon = async(req,res)=>{
             message:'Coupon updated successfully'
         });
        }
-
-
     }catch (e){
         return res.status(500).json({
             error:true,

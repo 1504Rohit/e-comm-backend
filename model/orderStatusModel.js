@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 const OrderStatus = new mongoose.Schema({
@@ -9,6 +8,10 @@ const OrderStatus = new mongoose.Schema({
     orderId:{
         type:String,
         required:true
+    },
+    time:{
+        type: Date,
+        default: Date.now
     },
     status:{
         type:String,

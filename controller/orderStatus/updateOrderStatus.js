@@ -1,14 +1,18 @@
 const Status = require('../../model/orderStatusModel');
 
 exports.OrderStatus = async(req,res)=>{
+
     try{
+
         const statusId = req.query.statusId;
+
         if(!statusId){
             return res.status(500).json({
                  error:true,
                  message:"StatusId is required"
              });
          }
+         
         const {userId,orderId,status,statusCode} = req.body;
 
         if(!userId || !orderId || !status || !statusCode){
@@ -21,11 +25,13 @@ exports.OrderStatus = async(req,res)=>{
         const data = await Status.findByIdAndUpdate(
             {  _id: statusId },
             {
-            userId:userId,
-            orderId:orderId,
-            status:status,
-            statusCode:statusCode
-        }, { new: true } );
+               userId:userId,
+               orderId:orderId,
+               status:status,
+               statusCode:statusCode
+            },
+            {  new: true } 
+        );
 
         if(!data){
             return res.status(400).json({

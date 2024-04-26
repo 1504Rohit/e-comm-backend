@@ -1,5 +1,3 @@
-
-
 const User = require("../../model/authModel");
 const jwt = require("jsonwebtoken");
 
@@ -32,9 +30,7 @@ function generateToken(user) {
         id: user._id, 
         email: user.email,
     };
-
     const secretKey = 'rohit@1234'; 
     const expiresIn = '12h';
-
     return jwt.sign(payload, secretKey, { expiresIn });
 }

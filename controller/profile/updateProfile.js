@@ -6,7 +6,12 @@ const jwt = require("jsonwebtoken");
 exports.update = async(req,res)=>{
         const {name,email,phone,profilePic} = req.body;
         const userId = req.query.userId;
-
+        if(!req.user){
+            return res.status(400).json({
+              error:true,
+              message:"Unauthorized.."
+            });
+           }
         if(!phone || !email || !name || !userId){
             return res.status(400).json({error:true, message:'Some required field is missing'});
         }

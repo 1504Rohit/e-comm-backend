@@ -6,6 +6,13 @@ const {product} = require('../../model/addproduct');
 exports.addTocart = async(req,res)=>{
      
     try {
+      if(!req.user){
+        return res.status(400).json({
+          error:true,
+          message:"Unauthorized.."
+        });
+       }
+      
         const { userId, productId, quantity } = req.body;
 
         if(!userId || !productId || !quantity){

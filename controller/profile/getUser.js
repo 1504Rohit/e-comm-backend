@@ -4,6 +4,12 @@ const jwt = require("jsonwebtoken");
 
 exports.getUser = async(req,res)=>{
     try{
+        if(!req.user){
+            return res.status(400).json({
+              error:true,
+              message:"Unauthorized.."
+            });
+           }
        const userId = req.query.userId;
        if(!userId){
         return res.status(404).json({
