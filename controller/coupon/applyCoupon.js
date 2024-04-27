@@ -3,6 +3,12 @@ const Coupon = require('../../model/addcouponModel');
 exports.applyCoupon = async(req,res)=>{
     const getCoupon = req.query.couponId;
     try{
+        if(req.user.isAdmin){
+            return res.status(400).json({
+                error:true,
+                message:'Unauthorized to apply coupon'
+            });
+        }
        if(!getCoupon){
         return res.status(404).json({
             error:true,

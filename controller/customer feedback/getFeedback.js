@@ -2,6 +2,7 @@ const Feedback = require('../../model/customerFeedbackModel');
 
 exports.getFeedback = async(req,res)=>{
     const productId = req.query.productId;
+   
     if(!productId){
         return res.status(400).json({
             error:false,

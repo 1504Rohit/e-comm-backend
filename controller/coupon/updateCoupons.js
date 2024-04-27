@@ -4,6 +4,12 @@ const coupon = require('../../model/addcouponModel');
 exports.updateCoupon = async(req,res)=>{
     const userId = req.query.couponId;
     const data = req.body;
+    if(!req.user.isAdmin){
+        return res.status(400).json({
+            error:true,
+            message:'Unauthorized to update coupon'
+        });
+    }
     if(!userId){
         return res.status(404).json({
             error:true,

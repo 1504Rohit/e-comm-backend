@@ -27,13 +27,7 @@ exports.addTocart = async(req,res)=>{
     
         const cartItem = new Cart({
           userId,
-          product: {
-            name: data.name,
-            description:data.description,
-            price:data.price,
-            productImage:data.productImage,
-            images:data.images
-          },
+          product:data,
           quantity: quantity || 1 
         });
     

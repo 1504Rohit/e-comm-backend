@@ -15,9 +15,12 @@ const UserSchema = db.Schema({
         require:true,
         length:10
     },
-   
     profilePic:{
         type:String
+    },
+    isAdmin:{
+        type:Boolean,
+        required:true
     }
 })
 

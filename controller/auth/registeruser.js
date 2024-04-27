@@ -4,8 +4,8 @@ var validator = require("email-validator");
  
 exports.Register = async(req,res)=>{
     try{
-        const {email,phone,name} = req.body;
-        if(!phone || !email || !name){
+        const {email,phone,name,isAdmin} = req.body;
+        if(!phone || !email || !name || !isAdmin){
             return res.status(400).json({error:true, message:'Some required field is missing'});
         }
         if(phone.length<10){
@@ -22,7 +22,8 @@ exports.Register = async(req,res)=>{
             const result = await User.create({
                 name:name,
                 email:email,
-                phone:phone
+                phone:phone,
+                isAdmin:isAdmin
             });
             const token = generateToken(result);
             res.status(201).json({error:false, data:result, message:'User successfully registered',token:token});
@@ -35,6 +36,7 @@ function generateToken(user) {
     const payload = {
         id: user._id, 
         email: user.email,
+        isAdmin:user.isAdmin
     };
     const secretKey = 'rohit@1234'; 
     const expiresIn = '12h';

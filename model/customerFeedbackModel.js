@@ -2,10 +2,6 @@
 const mongoose = require('mongoose');
 
 const feedback = new mongoose.Schema({
-    custId:{
-        type:String,
-        required:true
-    },
     productId:{
         type:String,
         required:true

@@ -4,7 +4,12 @@ const coupon = require('../../model/addcouponModel');
 
 exports.deleteCoupon = async(req,res)=>{
     const couponId = req.query.couponId;
-
+    if(!req.user.isAdmin){
+        return res.status(400).json({
+            error:true,
+            message:'Unauthorized to delete coupon'
+        });
+    }
     if(!couponId){
         return res.status(404).json({
             error:true,

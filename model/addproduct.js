@@ -20,7 +20,15 @@ const productSchema = new mongoose.Schema({
     },
     images:[
         String
-    ]
+    ],
+    quantity:{
+        type:Number,
+        required:true
+    },
+    soldQuantity:{
+        type:Number,
+        required:true
+    }
 
 });
 

@@ -70,6 +70,23 @@ exports.CreateOrder = async(req,res)=>{
                     message:"Something went wrong"
                 });
             }else{
+              
+                for (let i = 0; i < productIds.length; i++) {
+                    const getProduct = await product.findById(productIds[i]);
+                    const update = await product.findByIdAndUpdate(
+                        { _id: getProduct.id },
+                        {
+                            name: getProduct.name,
+                            description:getProduct.description,
+                            price: getProduct.price,
+                            productImage: getProduct.productImage,
+                            images:getProduct.images,
+                            quantity:getProduct.quantity-1,
+                            soldQuantity:getProduct.soldQuantity+1
+                        },
+                        { new: true } 
+                    );
+                 }
                 const status = Status.create({
                     userId:userId,
                     orderId:data._id,
@@ -99,11 +116,29 @@ exports.CreateOrder = async(req,res)=>{
                 totalPrice:Price
             });
             if(!data){
+                console.log("inside if")
                 return res.status(404).json({
                     error:true,
                     message:"Something went wrong"
                 });
             }else{
+                console.log('inside else')
+                for (let i = 0; i < productIds.length; i++) {
+                    const getProduct = await product.findById(productIds[i]);
+                    const update = await product.findByIdAndUpdate(
+                        { _id: getProduct.id },
+                        {
+                            name: getProduct.name,
+                            description:getProduct.description,
+                            price: getProduct.price,
+                            productImage: getProduct.productImage,
+                            images:getProduct.images,
+                            quantity:getProduct.quantity-1,
+                            soldQuantity:getProduct.soldQuantity+1
+                        },
+                        { new: true } 
+                    );
+                 }
                 const status = Status.create({
                     userId:userId,
                     orderId:data._id,
@@ -119,7 +154,7 @@ exports.CreateOrder = async(req,res)=>{
             }
            }
        }else{
-        if(!paymentMethod){
+            if(!paymentMethod){
             return res.status(404).json({
                 error:true,
                 message:"Some required fields are missing"
@@ -152,20 +187,38 @@ exports.CreateOrder = async(req,res)=>{
            }
            var totalPrice = calculateTotalPrice(cartItems);
            if(paymentMethod==5){
-            console.log('inside 5');
             const data = await Order.create({
                 userId : userId,
                 address:address,
                 products:array,
                 totalPrice:totalPrice
             });
-            console.log(data);
             if(!data){
                 return res.status(404).json({
                     error:true,
                     message:"Something went wrong"
                 });
             }else{
+                for (let i = 0; i < cartItems.length; i++) {
+                    const getProduct = await product.findById(cartItems[i].product.id);
+                    console.log(getProduct);
+                    console.log(getProduct.id);
+                    console.log(getProduct.name);
+                    const update = await product.findByIdAndUpdate(
+                        { _id: getProduct.id },
+                        {
+                            name: getProduct.name,
+                            description:getProduct.description,
+                            price: getProduct.price,
+                            productImage: getProduct.productImage,
+                            images:getProduct.images,
+                            quantity:getProduct.quantity-cartItems[i].quantity,
+                            soldQuantity:getProduct.soldQuantity+cartItems[i].quantity
+                        },
+                        { new: true } 
+                    );
+                    const data = await Cart.findByIdAndDelete(cartItems[i].id);
+                 }
                 const status = Status.create({
                     userId:userId,
                     orderId:data._id,
@@ -206,6 +259,24 @@ exports.CreateOrder = async(req,res)=>{
                     status:"Order created successfully",
                     statusCode:1
                 });
+                console.log(cartItems.length);
+                for (let i = 0; i < cartItems.length; i++) {
+                    const getProduct = await product.findById(cartItems[i].product.id);
+                    const update = await product.findByIdAndUpdate(
+                        { _id: getProduct.id },
+                        {
+                            name: getProduct.name,
+                            description:getProduct.description,
+                            price: getProduct.price,
+                            productImage: getProduct.productImage,
+                            images:getProduct.images,
+                            quantity:getProduct.quantity-cartItems[i].quantity,
+                            soldQuantity:getProduct.soldQuantity+cartItems[i].quantity
+                        },
+                        { new: true } 
+                    );
+                    const data = await Cart.findByIdAndDelete(cartItems[i].id);
+                 }
                 return res.status(201).json({
                     error:false,
                     data:data,

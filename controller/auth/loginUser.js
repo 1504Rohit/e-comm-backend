@@ -29,6 +29,7 @@ function generateToken(user) {
     const payload = {
         id: user._id, 
         email: user.email,
+        isAdmin:user.isAdmin
     };
     const secretKey = 'rohit@1234'; 
     const expiresIn = '12h';

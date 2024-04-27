@@ -6,6 +6,12 @@ const coupon = require('../../model/addcouponModel');
 exports.addCoupon = async (req,res)=>{
     try{
        const data = req.body;
+       if(!req.user.isAdmin){
+        return res.status(400).json({
+            error:true,
+            message:'Unauthorized to add coupon'
+        });
+       }
        if(!data.name || !data.description || !data.discountType ||!data.discountValue || !data.minimumValue){
         return res.status(404).json({
             error:true,
