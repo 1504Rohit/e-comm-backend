@@ -6,18 +6,18 @@ exports.loginUser = async(req,res)=>{
     const OTP = req.query.OTP;
     const {phone} = req.body;
     if(!OTP || !phone){
-       return res.status(201).json({error:true,message:'Some required field is missing'});
+       return res.status(400).json({error:true,message:'Some required field is missing'});
     }
     const user = await User.findOne({phone});
     if(!user){
-        res.status(201).json({error:true,message:'User does\'t exist'});
+        res.status(404).json({error:true,message:'User does\'t exist'});
     }else{
         console.log(OTP);
        if(OTP == 123456){
         const token = generateToken(user);
         res.status(201).json({error:false,user:user,message:'User login successfully',token:token});
        }else{
-        res.status(201).json({error:true,message:'Wrong OTP..'});
+        res.status(400).json({error:true,message:'Wrong OTP..'});
        }
     }
    }catch (e){
@@ -32,6 +32,6 @@ function generateToken(user) {
         isAdmin:user.isAdmin
     };
     const secretKey = 'rohit@1234'; 
-    const expiresIn = '12h';
+    const expiresIn = '30d';
     return jwt.sign(payload, secretKey, { expiresIn });
 }

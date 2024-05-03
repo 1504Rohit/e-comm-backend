@@ -3,30 +3,25 @@ const Status = require('../../model/orderStatusModel');
 exports.OrderStatus = async(req,res)=>{
 
     try{
+        if(!req.user.isAdmin){
+            return res.status(400).json({
+                error:true,
+                message:'Unauthorized..'
+            });
+        }
+        const {orderId,status,statusCode} = req.body;
 
-        const statusId = req.query.statusId;
-
-        if(!statusId){
-            return res.status(500).json({
-                 error:true,
-                 message:"StatusId is required"
-             });
-         }
-         
-        const {userId,orderId,status,statusCode} = req.body;
-
-        if(!userId || !orderId || !status || !statusCode){
+        if( !orderId || !status || !statusCode){
            return res.status(500).json({
                 error:true,
                 message:"Some required fields are missing"
             });
         }
 
-        const data = await Status.findByIdAndUpdate(
-            {  _id: statusId },
+        const data = await Status.findOneAndUpdate(
+            {  orderId: orderId },
             {
-               userId:userId,
-               orderId:orderId,
+              
                status:status,
                statusCode:statusCode
             },
@@ -44,7 +39,7 @@ exports.OrderStatus = async(req,res)=>{
                 data:{
                     Status:data.status
                 },
-                message:"Status created successfully"
+                message:"Status updated successfully"
             });
         }
 

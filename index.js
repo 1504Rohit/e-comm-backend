@@ -1,4 +1,3 @@
-
 const express = require('express');
 const db = require('./database/db');
 const route = require('./routes/auth.routes');
@@ -8,6 +7,7 @@ const CouponRoute = require('./routes/coupon.routes');
 const OrderRoute = require('./routes/order.routes');
 const Address = require ('./routes/address.routes');
 const feedback = require('./routes/feedback.routes');
+const favList = require('./routes/fav.routes');
 const app = express();
 
 app.use(express.json());
@@ -19,6 +19,7 @@ app.use('/api',CouponRoute);
 app.use('/api',OrderRoute);
 app.use('/api',Address);
 app.use('/api',feedback);
+app.use('/api',favList);
 
 app.use('/uploads',express.static(__dirname+"/uploads"));
 

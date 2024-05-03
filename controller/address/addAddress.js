@@ -34,7 +34,7 @@ exports.addAddress = async(req,res)=>{
         });
 
         if(!data){
-            return res.status(201).json({
+            return res.status(400).json({
                 error:true,
                 message:"Something went wrong"
             });

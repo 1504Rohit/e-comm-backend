@@ -39,7 +39,7 @@ function generateToken(user) {
         isAdmin:user.isAdmin
     };
     const secretKey = 'rohit@1234'; 
-    const expiresIn = '12h';
+    const expiresIn = '30d';
 
     return jwt.sign(payload, secretKey, { expiresIn });
 }

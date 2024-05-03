@@ -1,6 +1,6 @@
 
 
-const {product} = require('../../model/addproduct');
+const {product} = require('../../model/product');
 
 exports.getProducts= async(req,res)=>{
     try{

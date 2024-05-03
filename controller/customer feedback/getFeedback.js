@@ -5,7 +5,7 @@ exports.getFeedback = async(req,res)=>{
    
     if(!productId){
         return res.status(400).json({
-            error:false,
+            error:true,
             message:"ProductId is required"
         });
     }
@@ -14,12 +14,12 @@ exports.getFeedback = async(req,res)=>{
 
     if(!data){
         return res.status(404).json({
-            error:false,
+            error:true,
             message:"Something went wrong"
         });
     }else{
         return res.status(200).json({
-            error:true,
+            error:false,
             data:data,
             message:"Feedback fetched successfully"
         });

@@ -3,6 +3,12 @@ const Status = require('../../model/orderStatusModel');
 
 exports.getStatus = async (req,res)=>{
     try{
+        if(req.user.isAdmin){
+            return res.status(400).json({
+                error:true,
+                message:'Unauthorized..'
+            });
+           }
         const {userId,orderId} = req.body;
         if(!userId || !orderId ){
             return res.status(500).json({

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {productSchema} = require('../model/addproduct');
+
 
 const cartSchema = new mongoose.Schema({
   userId: {
@@ -8,8 +8,8 @@ const cartSchema = new mongoose.Schema({
     required: true
   },
   product: {
-    type: productSchema,
-    ref: 'Product', 
+    type: mongoose.Types.ObjectId,
+    ref: 'Products', 
     required: true
   },
   quantity: {

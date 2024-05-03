@@ -3,6 +3,12 @@ const {Order} = require('../../model/createOrderModel');
 exports.getAllOrder = async(req,res)=>{
     const userId = req.query.userId;
     try{
+        if(req.user.isAdmin){
+            return res.status(400).json({
+                error:true,
+                message:'Unauthorized..'
+            });
+           }
        if(!userId){
         return res.status(404).json({
             error:true,

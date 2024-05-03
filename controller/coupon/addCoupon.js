@@ -29,7 +29,6 @@ exports.addCoupon = async (req,res)=>{
        if(!couponResult){
         return res.status(404).json({
             error:true,
-            data:couponResult,
             message:'Something went wrong'
         });
        }else{

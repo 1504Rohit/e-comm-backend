@@ -14,7 +14,8 @@ exports.getCartItem = async(req,res)=>{
         }
         
         try {
-          const cartItems = await Cart.find({ userId: userId }).exec();
+          const cartItems = await Cart.find({ userId: userId }).populate('product').exec();
+          console.log(cartItems);
           var totalPrice = calculateTotalPrice(cartItems);
           console.log(totalPrice);
           if (cartItems && cartItems.length > 0) {
@@ -24,7 +25,7 @@ exports.getCartItem = async(req,res)=>{
           }
         } catch (error) {
           console.error('Error fetching cart items:', error);
-          res.status(500).json({error:true, message: 'Internal server error' });
+          res.status(500).json({error:true, message:'Internal server error' });
         }
 }
 

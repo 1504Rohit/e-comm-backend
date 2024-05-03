@@ -5,7 +5,7 @@ exports.getAddress = async(req,res)=>{
     const userId = req.query.userId;
     try{
        if(!req.user){
-        return res.status(400).json({
+        return res.status(403).json({
           error:true,
           message:"Unauthorized.."
         });
